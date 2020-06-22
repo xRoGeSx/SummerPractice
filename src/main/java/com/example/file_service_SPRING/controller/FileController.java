@@ -3,6 +3,7 @@ package com.example.file_service_SPRING.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -10,15 +11,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import javax.servlet.http.HttpServletRequest;
-
-import com.example.file_service_SPRING.payload.UploadFileResponse;
-import com.example.file_service_SPRING.service.FileStorageService;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.example.file_service_SPRING.model.DBFile;
+import com.example.file_service_SPRING.payload.UploadFileResponse;
+import com.example.file_service_SPRING.service.DBFileStorageService;
+import com.example.file_service_SPRING.service.FileStorageService;
 
 @RestController
 public class FileController {

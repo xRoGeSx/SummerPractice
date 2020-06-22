@@ -15,12 +15,17 @@ import java.nio.file.StandardCopyOption;
 
 import com.example.file_service_SPRING.exception.FileStorageException;
 import com.example.file_service_SPRING.exception.MyFileNotFoundException;
+import com.example.file_service_SPRING.model.DBFile;
 import com.example.file_service_SPRING.property.FileStorageProperties;
+import com.example.file_service_SPRING.repository.DBFileRepository;
 
 @Service
 public class FileStorageService {
 
     private final Path fileStorageLocation;
+
+    @Autowired
+    private DBFileRepository dbFileRepository;
 
     @Autowired
     public FileStorageService(FileStorageProperties fileStorageProperties) {
@@ -43,7 +48,7 @@ public class FileStorageService {
             if(fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
-
+            dbFileRepository.save(new DBFile(fileName, file.getContentType(), file.getBytes()));
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
